@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: custom-bash
+  namespace: default
+  labels:
+    app: custom-bash
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: custom-bash
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: custom-bash
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: custom-bash
+        image: winds6206/custom-bash:4.4
+        stdin: true
+        tty: true
+        env:
+          - name: TZ
+            value: Asia/Taipei
